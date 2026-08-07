@@ -1,0 +1,7 @@
+{
+  "name": "umes-clima",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular-standalone"
+}
