@@ -24,17 +24,15 @@ export class WeatherService {
       { nombre: 'Japón', capital: 'Tokio', lat: 35.6762, lon: 139.6503 },
       { nombre: 'China', capital: 'Pekín', lat: 39.9042, lon: 116.4074 },
       { nombre: 'India', capital: 'Nueva Delhi', lat: 28.6139, lon: 77.2090 },
-      { nombre: 'Australia', capital: 'Canberra', lat: -35.2809, lon: 149.1300 }
+      { nombre: 'Australia', capital: 'Canberra', lat: -35.2809, lon: 149.1300 },
+      { nombre: 'Guatemala', capital: 'Guatemala', lat: 14.6407, lon: -90.5133 }
     ];
   }
 
   constructor(private http: HttpClient) {}
-
-  // Método para obtener el clima
   getClima(lat: number, lon: number): Observable<any> {
-    // Asegurarse que la URL está bien formada
     const url = `${this.apiUrl}?latitude=${lat}&longitude=${lon}&current=temperature_2m,relative_humidity_2m,wind_speed_10m,apparent_temperature,weather_code`;
-    console.log('URL:', url); // Para debug
+    console.log('URL:', url);
     return this.http.get(url);
   }
 }

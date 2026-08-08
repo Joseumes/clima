@@ -2,6 +2,7 @@ import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
+import { Router } from '@angular/router';
 import { WeatherService } from '../services/weather.service';
 
 @Component({
@@ -12,8 +13,10 @@ import { WeatherService } from '../services/weather.service';
   imports: [IonicModule, CommonModule, FormsModule]
 })
 export class WeatherPage {
+
   private weatherService = inject(WeatherService);
-  
+  private router = inject(Router);
+
   paises: any[] = [];
   paisSeleccionado: any = null;
   climaData: any = null;
@@ -46,10 +49,11 @@ export class WeatherPage {
     });
   }
 
-  // Convertir hora UTC a local
   convertirHoraLocal(utcTime: string): string {
     if (!utcTime) return '';
+
     const fecha = new Date(utcTime);
+
     return fecha.toLocaleString('es-ES', {
       year: 'numeric',
       month: '2-digit',
@@ -61,6 +65,7 @@ export class WeatherPage {
 
   getDescripcion(code: number): string {
     if (!code) return 'Variable';
+
     const desc: any = {
       0: 'Despejado',
       1: 'Parcialmente nublado',
@@ -82,6 +87,11 @@ export class WeatherPage {
       95: 'Tormenta',
       96: 'Tormenta con granizo'
     };
+
     return desc[code] || 'Variable';
+  }
+
+  goToWeather() {
+    this.router.navigate(['/home']);
   }
 }
