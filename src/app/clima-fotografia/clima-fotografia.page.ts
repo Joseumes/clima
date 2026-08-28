@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
-
 import {
   IonContent,
   IonHeader,
@@ -19,12 +18,18 @@ import {
   IonRadioGroup
 } from '@ionic/angular/standalone';
 
-import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
+import {
+  Camera,
+  CameraResultType,
+  CameraSource
+} from '@capacitor/camera';
+
 
 @Component({
   selector: 'app-clima-fotografia',
   templateUrl: './clima-fotografia.page.html',
   styleUrls: ['./clima-fotografia.page.scss'],
+
   standalone: true,
 
   imports: [
@@ -46,9 +51,9 @@ import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
   ]
 })
 
+
 export class ClimaFotografiaPage {
 
-  // Datos del formulario
   datos = {
     nombre: '',
     edad: null,
@@ -57,32 +62,32 @@ export class ClimaFotografiaPage {
     fotoId: ''
   };
 
-  // Aquí aparecerá el JSON
-  jsonResultado = '';
-json: any;
+  guardado = false;
 
-  // Abrir cámara
+
   async tomarFoto() {
-  try {
-    const foto = await Camera.getPhoto({
-      quality: 70,
-      source: CameraSource.Camera,
-      resultType: CameraResultType.Uri
-    });
 
-    // Solo guardamos un identificador
-    this.datos.fotoId = 'FOTO-' + Date.now();
+    try {
 
-    console.log('Foto tomada');
-    console.log('ID:', this.datos.fotoId);
+      await Camera.getPhoto({
+        quality: 70,
+        source: CameraSource.Camera,
+        resultType: CameraResultType.Uri
+      });
 
-  } catch (error) {
-    console.log('No se tomó la fotografía');
+      // ID de la fotografía
+      this.datos.fotoId = 'FOTO-' + Date.now();
+
+    } catch (error) {
+
+      console.log('No se tomó la fotografía');
+
+    }
+
   }
-}
 
-  // Guardar información
-  guardar() {
+
+  guardarJson() {
 
     const json = {
       nombre: this.datos.nombre,
@@ -92,10 +97,12 @@ json: any;
       fotografia: this.datos.fotoId
     };
 
-    // Convertir a JSON
-    this.jsonResultado = JSON.stringify(json, null, 2);
+    // Este JSON queda listo para enviarlo posteriormente por POST
+    console.log('JSON:', json);
 
-    console.log(json);
+    // Mostrar los datos en pantalla
+    this.guardado = true;
+
   }
 
 }

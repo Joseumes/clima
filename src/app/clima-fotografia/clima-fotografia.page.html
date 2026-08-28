@@ -6,115 +6,92 @@
 
 <ion-content class="ion-padding">
 
-  <form #formulario="ngForm" (ngSubmit)="guardar()">
+  <ion-item>
+    <ion-input
+      label="Nombre"
+      labelPlacement="stacked"
+      [(ngModel)]="datos.nombre"
+      placeholder="Escribe tu nombre">
+    </ion-input>
+  </ion-item>
 
-    <!-- Nombre -->
-    <ion-item>
-      <ion-input
-        label="Nombre"
-        labelPlacement="stacked"
-        name="nombre"
-        [(ngModel)]="datos.nombre"
-        required>
-      </ion-input>
-    </ion-item>
+  <ion-item>
+    <ion-input
+      label="Edad"
+      labelPlacement="stacked"
+      type="number"
+      [(ngModel)]="datos.edad"
+      placeholder="Escribe tu edad">
+    </ion-input>
+  </ion-item>
 
-    <!-- Edad -->
-    <ion-item>
-      <ion-input
-        label="Edad"
-        labelPlacement="stacked"
-        type="number"
-        name="edad"
-        [(ngModel)]="datos.edad"
-        required>
-      </ion-input>
-    </ion-item>
+  <ion-list>
+    <ion-list-header>
+      <ion-label>Condición climática</ion-label>
+    </ion-list-header>
 
-    <!-- Condición climática -->
-    <ion-list>
-      <ion-list-header>
-        <ion-label>Condición climática</ion-label>
-      </ion-list-header>
+    <ion-radio-group [(ngModel)]="datos.condicion">
 
-      <ion-radio-group
-        name="condicion"
-        [(ngModel)]="datos.condicion"
-        required>
+      <ion-item>
+        <ion-label>Soleado</ion-label>
+        <ion-radio value="Soleado"></ion-radio>
+      </ion-item>
 
-        <ion-item>
-          <ion-label>Soleado</ion-label>
-          <ion-radio value="Soleado"></ion-radio>
-        </ion-item>
+      <ion-item>
+        <ion-label>Nublado</ion-label>
+        <ion-radio value="Nublado"></ion-radio>
+      </ion-item>
 
-        <ion-item>
-          <ion-label>Nublado</ion-label>
-          <ion-radio value="Nublado"></ion-radio>
-        </ion-item>
+      <ion-item>
+        <ion-label>Lluvioso</ion-label>
+        <ion-radio value="Lluvioso"></ion-radio>
+      </ion-item>
 
-        <ion-item>
-          <ion-label>Lluvioso</ion-label>
-          <ion-radio value="Lluvioso"></ion-radio>
-        </ion-item>
+    </ion-radio-group>
+  </ion-list>
 
-      </ion-radio-group>
-    </ion-list>
+  <ion-item>
+    <ion-textarea
+      label="Comentario"
+      labelPlacement="stacked"
+      [(ngModel)]="datos.comentario"
+      placeholder="Escribe un comentario..."
+      [autoGrow]="true">
+    </ion-textarea>
+  </ion-item>
 
-    <!-- Comentario -->
-    <ion-item>
-      <ion-textarea
-        label="Comentario"
-        labelPlacement="stacked"
-        name="comentario"
-        [(ngModel)]="datos.comentario"
-        placeholder="Escribe un comentario"
-        [autoGrow]="true"
-        required>
-      </ion-textarea>
-    </ion-item>
+  <ion-button
+    expand="block"
+    (click)="tomarFoto()"
+    class="ion-margin-top">
 
-    <!-- Cámara -->
-    <ion-button
-      expand="block"
-      type="button"
-      (click)="tomarFoto()"
-      class="ion-margin-top">
+    📷 Tomar fotografía
 
-      📷 Tomar fotografía
+  </ion-button>
 
-    </ion-button>
+  <ion-button
+    expand="block"
+    color="success"
+    (click)="guardarJson()"
+    class="ion-margin-top">
 
-    <!-- Indicador de fotografía -->
-    <ion-item *ngIf="datos.fotoId">
-      <ion-label>
-        Fotografía tomada
-        <p>{{ datos.fotoId }}</p>
-      </ion-label>
-    </ion-item>
+    Guardar
 
-    <!-- Guardar -->
-    <ion-button
-      expand="block"
-      type="submit"
-      [disabled]="!formulario.valid || !datos.fotoId"
-      class="ion-margin-top">
-
-      Guardar
-
-    </ion-button>
-
-  </form>
-
-  <!-- JSON -->
-  <div *ngIf="jsonResultado">
-
-    <h3>JSON generado:</h3>
-
-    <div>
-      <h2>{{json.nombre}}</h2>
-    </div>
+  </ion-button>
 
 
+  <!-- DATOS MOSTRADOS -->
+  <div *ngIf="guardado">
+
+    <h2>Nombre: {{ datos.nombre }}</h2>
+
+    <h2>Edad: {{ datos.edad }}</h2>
+
+    <h2>Clima: {{ datos.condicion }}</h2>
+
+    <h2>Comentario: {{ datos.comentario }}</h2>
+
+    <h2>Fotografía: {{ datos.fotoId }}</h2>
 
   </div>
 
