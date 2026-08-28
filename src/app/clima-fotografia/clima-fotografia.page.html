@@ -1,0 +1,121 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Clima y Fotografía</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <form #formulario="ngForm" (ngSubmit)="guardar()">
+
+    <!-- Nombre -->
+    <ion-item>
+      <ion-input
+        label="Nombre"
+        labelPlacement="stacked"
+        name="nombre"
+        [(ngModel)]="datos.nombre"
+        required>
+      </ion-input>
+    </ion-item>
+
+    <!-- Edad -->
+    <ion-item>
+      <ion-input
+        label="Edad"
+        labelPlacement="stacked"
+        type="number"
+        name="edad"
+        [(ngModel)]="datos.edad"
+        required>
+      </ion-input>
+    </ion-item>
+
+    <!-- Condición climática -->
+    <ion-list>
+      <ion-list-header>
+        <ion-label>Condición climática</ion-label>
+      </ion-list-header>
+
+      <ion-radio-group
+        name="condicion"
+        [(ngModel)]="datos.condicion"
+        required>
+
+        <ion-item>
+          <ion-label>Soleado</ion-label>
+          <ion-radio value="Soleado"></ion-radio>
+        </ion-item>
+
+        <ion-item>
+          <ion-label>Nublado</ion-label>
+          <ion-radio value="Nublado"></ion-radio>
+        </ion-item>
+
+        <ion-item>
+          <ion-label>Lluvioso</ion-label>
+          <ion-radio value="Lluvioso"></ion-radio>
+        </ion-item>
+
+      </ion-radio-group>
+    </ion-list>
+
+    <!-- Comentario -->
+    <ion-item>
+      <ion-textarea
+        label="Comentario"
+        labelPlacement="stacked"
+        name="comentario"
+        [(ngModel)]="datos.comentario"
+        placeholder="Escribe un comentario"
+        [autoGrow]="true"
+        required>
+      </ion-textarea>
+    </ion-item>
+
+    <!-- Cámara -->
+    <ion-button
+      expand="block"
+      type="button"
+      (click)="tomarFoto()"
+      class="ion-margin-top">
+
+      📷 Tomar fotografía
+
+    </ion-button>
+
+    <!-- Indicador de fotografía -->
+    <ion-item *ngIf="datos.fotoId">
+      <ion-label>
+        Fotografía tomada
+        <p>{{ datos.fotoId }}</p>
+      </ion-label>
+    </ion-item>
+
+    <!-- Guardar -->
+    <ion-button
+      expand="block"
+      type="submit"
+      [disabled]="!formulario.valid || !datos.fotoId"
+      class="ion-margin-top">
+
+      Guardar
+
+    </ion-button>
+
+  </form>
+
+  <!-- JSON -->
+  <div *ngIf="jsonResultado">
+
+    <h3>JSON generado:</h3>
+
+    <div>
+      <h2>{{json.nombre}}</h2>
+    </div>
+
+
+
+  </div>
+
+</ion-content>

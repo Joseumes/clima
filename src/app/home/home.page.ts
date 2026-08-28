@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
-
 @Component({
   selector: 'app-home',
   templateUrl: './home.page.html',
@@ -16,4 +15,10 @@ export class HomePage {
   goToWeather() {
     this.router.navigate(['/weather']);
   }
+
+  goToPhotography() {
+    this.router.navigate(['/clima-fotografia']);
+  }
+
+
 }
