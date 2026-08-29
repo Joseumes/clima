@@ -24,12 +24,10 @@ import {
   CameraSource
 } from '@capacitor/camera';
 
-
 @Component({
   selector: 'app-clima-fotografia',
   templateUrl: './clima-fotografia.page.html',
   styleUrls: ['./clima-fotografia.page.scss'],
-
   standalone: true,
 
   imports: [
@@ -40,7 +38,6 @@ import {
     IonTitle,
     IonToolbar,
     IonItem,
-    IonInput,
     IonTextarea,
     IonButton,
     IonList,
@@ -50,42 +47,65 @@ import {
     IonRadioGroup
   ]
 })
-
-
 export class ClimaFotografiaPage {
 
   datos = {
     nombre: '',
-    edad: null,
+    edad: null as number | null,
     condicion: '',
     comentario: '',
-    fotoId: ''
+    fotoId: '',
+    fotoUrl: ''
   };
 
   guardado = false;
-
 
   async tomarFoto() {
 
     try {
 
-      await Camera.getPhoto({
+      // Solicitar permisos de cámara
+      const permisos = await Camera.checkPermissions();
+
+      if (permisos.camera !== 'granted') {
+        const nuevosPermisos = await Camera.requestPermissions({
+          permissions: ['camera']
+        });
+
+        if (nuevosPermisos.camera !== 'granted') {
+          console.log('Permiso de cámara denegado');
+          return;
+        }
+      }
+
+      // Abrir cámara
+      const foto = await Camera.getPhoto({
         quality: 70,
+        allowEditing: false,
         source: CameraSource.Camera,
         resultType: CameraResultType.Uri
       });
 
-      // ID de la fotografía
-      this.datos.fotoId = 'FOTO-' + Date.now();
+      // Verificar que se haya obtenido la fotografía
+      if (foto.webPath) {
+
+        // Guardar la URL de la fotografía
+        this.datos.fotoUrl = foto.webPath;
+
+        // Crear ID único para la fotografía
+        this.datos.fotoId = 'FOTO-' + Date.now();
+
+        console.log('Fotografía tomada correctamente');
+        console.log('ID:', this.datos.fotoId);
+        console.log('URL:', this.datos.fotoUrl);
+      }
 
     } catch (error) {
 
-      console.log('No se tomó la fotografía');
+      console.error('Error al abrir la cámara:', error);
 
     }
-
   }
-
 
   guardarJson() {
 
@@ -94,15 +114,14 @@ export class ClimaFotografiaPage {
       edad: this.datos.edad,
       condicion: this.datos.condicion,
       comentario: this.datos.comentario,
-      fotografia: this.datos.fotoId
+      fotografia: {
+        id: this.datos.fotoId,
+        url: this.datos.fotoUrl
+      }
     };
 
-    // Este JSON queda listo para enviarlo posteriormente por POST
     console.log('JSON:', json);
 
-    // Mostrar los datos en pantalla
     this.guardado = true;
-
   }
-
 }
