@@ -3,7 +3,8 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { Router } from '@angular/router';
-import { WeatherService } from '../services/weather.service';
+import { WeatherService } from '../../../core/services/weather.service';
+import { Pais, WeatherResponse } from '../../../domain/weather/weather.model';
 
 @Component({
   selector: 'app-weather',
@@ -17,9 +18,9 @@ export class WeatherPage {
   private weatherService = inject(WeatherService);
   private router = inject(Router);
 
-  paises: any[] = [];
-  paisSeleccionado: any = null;
-  climaData: any = null;
+  paises: Pais[] = [];
+  paisSeleccionado: Pais | null = null;
+  climaData: WeatherResponse | null = null;
   cargando = false;
   error = '';
 
@@ -49,7 +50,7 @@ export class WeatherPage {
     });
   }
 
-  convertirHoraLocal(utcTime: string): string {
+  convertirHoraLocal(utcTime?: string): string {
     if (!utcTime) return '';
 
     const fecha = new Date(utcTime);
@@ -63,7 +64,7 @@ export class WeatherPage {
     });
   }
 
-  getDescripcion(code: number): string {
+  getDescripcion(code?: number): string {
     if (!code) return 'Variable';
 
     const desc: any = {

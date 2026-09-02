@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
@@ -10,7 +10,7 @@ import { IonicModule } from '@ionic/angular';
   imports: [IonicModule, CommonModule]
 })
 export class HomePage {
-  constructor(private router: Router) {}
+  private router = inject(Router);
 
   goToWeather() {
     this.router.navigate(['/weather']);
@@ -19,6 +19,4 @@ export class HomePage {
   goToPhotography() {
     this.router.navigate(['/clima-fotografia']);
   }
-
-
 }

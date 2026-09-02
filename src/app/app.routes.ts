@@ -7,16 +7,15 @@ export const routes: Routes = [
     pathMatch: 'full'
   },
   {
-    path: 'clima-fotografia',
-    loadComponent: () => import('./clima-fotografia/clima-fotografia.page').then( m => m.ClimaFotografiaPage)
-  },
-  {
     path: 'home',
-    loadComponent: () => import('./home/home.page').then(m => m.HomePage)
+    loadChildren: () => import('./features/home/home.routes').then(m => m.homeRoutes)
   },
   {
     path: 'weather',
-    loadComponent: () => import('./weather/weather.page').then(m => m.WeatherPage)
+    loadChildren: () => import('./features/weather/weather.routes').then(m => m.weatherRoutes)
   },
-  
+  {
+    path: 'clima-fotografia',
+    loadChildren: () => import('./features/clima-fotografia/clima-fotografia.routes').then(m => m.climaFotografiaRoutes)
+  },
 ];
