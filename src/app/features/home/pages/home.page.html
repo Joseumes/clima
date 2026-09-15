@@ -1,15 +1,35 @@
 <ion-header>
   <ion-toolbar color="primary">
-    <ion-title>Umes Clima</ion-title>
+    <ion-title>Clima GPS</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="ion-padding" style="display: flex; align-items: center; justify-content: center;">
-  <ion-button expand="block" (click)="goToWeather()" style="margin-top: 30px; height: 55px;">
-    Consultar Clima
+<ion-content class="ion-padding">
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Consulta del clima con GPS</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      Esta app obtiene tu ubicación con GPS, consulta el clima actual y te permite guardar registros con foto.
+    </ion-card-content>
+  </ion-card>
+
+  <ion-button expand="block" (click)="consultarClima()" [disabled]="cargando">
+    Consultar clima
   </ion-button>
 
-  <ion-button expand="block" (click)="goToPhotography()" style="margin-top: 30px; height: 55px;">
-    Consultar Fotografia
+  <div *ngIf="cargando" class="ion-text-center ion-margin">
+    <ion-spinner></ion-spinner>
+    <p>Obteniendo ubicación y clima...</p>
+  </div>
+
+  <ion-card>
+    <ion-card-content>
+      Total de registros guardados: {{ registrosService.total() }}
+    </ion-card-content>
+  </ion-card>
+
+  <ion-button expand="block" color="secondary" (click)="irARegistros()">
+    Registros guardados
   </ion-button>
 </ion-content>

@@ -1,0 +1,46 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Registros guardados</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-button expand="block" fill="outline" (click)="volver()">
+    Volver al inicio
+  </ion-button>
+
+  <div *ngIf="registrosService.obtenerTodos().length === 0" class="ion-text-center ion-margin">
+    <p>No hay registros. Primero realiza una consulta desde la página principal.</p>
+  </div>
+
+  <ion-card *ngFor="let r of registrosService.obtenerTodos()">
+    <ion-card-header>
+      <ion-card-title>{{ r.fecha }}</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <p>Latitud: {{ r.latitud.toFixed(4) }}</p>
+      <p>Longitud: {{ r.longitud.toFixed(4) }}</p>
+      <p>Temperatura: {{ r.temperatura }} °C</p>
+      <p>Sensación: {{ r.sensacion }} °C</p>
+      <p>Humedad: {{ r.humedad }} %</p>
+      <p>Viento: {{ r.viento }} km/h</p>
+
+      <ion-item *ngIf="r.foto">
+        <ion-thumbnail slot="start">
+          <img [src]="r.foto" />
+        </ion-thumbnail>
+        <ion-label>Vista previa</ion-label>
+      </ion-item>
+
+      <img *ngIf="r.foto" [src]="r.foto" style="width: 100%; border-radius: 8px; margin-top: 8px;" />
+
+      <ion-item>
+        <ion-checkbox [(ngModel)]="guardarEnGaleria[r.id]">Guardar también en galería</ion-checkbox>
+      </ion-item>
+
+      <ion-button expand="block" (click)="tomarFoto(r)">
+        {{ r.foto ? 'Reemplazar fotografía' : 'Tomar fotografía' }}
+      </ion-button>
+    </ion-card-content>
+  </ion-card>
+</ion-content>
